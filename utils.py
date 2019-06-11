@@ -103,6 +103,8 @@ class Utils(object):
         real = model.example
         gen = model.reconstruction
 
+        print("real: ", real.shape)
+        print("gen: ", gen.shape)
         # Generate images from noise, using the generator network.
         r, g = sess.run([real, gen], feed_dict={model.training_phase:True, model.handle: handle})
 
@@ -122,16 +124,24 @@ class Utils(object):
             #                     global_step, imtype), format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
             # plt.gcf().clear()
             # plt.close(f)
+        
+        # import cv2
+        # cv2.imwrite(name, im)
+        plt.imsave(name, im) 
+        print("im: ", im.shape)
+        print('Reconstruction saved to', name)
+            
 
         comparison = np.hstack(images)
+        
         f = plt.figure()
-        plt.imshow(comparison)
-        plt.axis('off')
-        if single_compress:
-            f.savefig(name, format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
-        else:
-            f.savefig("{}/gan_compression_{}_epoch{}_step{}_{}_comparison.pdf".format(directories.samples, name, epoch,
-                global_step, imtype), format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
+        # plt.imshow(comparison)
+        # plt.axis('off')
+        # if single_compress:
+        #     f.savefig(name, format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
+        # else:
+        #     f.savefig("{}/gan_compression_{}_epoch{}_step{}_{}_comparison.pdf".format(directories.samples, name, epoch,
+        #         global_step, imtype), format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
         plt.gcf().clear()
         plt.close(f)
 

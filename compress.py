@@ -17,7 +17,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 def single_compress(config, args):
     start = time.time()
     ckpt = tf.train.get_checkpoint_state(directories.checkpoints)
-    assert (ckpt.model_checkpoint_path), 'Missing checkpoint file!'
+    # assert (ckpt.model_checkpoint_path), 'Missing checkpoint file!'
 
     if config.use_conditional_GAN:
         print('Using conditional GAN')
@@ -26,6 +26,7 @@ def single_compress(config, args):
         paths = np.array([args.image_path])
 
     gan = Model(config, paths, name='single_compress', dataset=args.dataset, evaluate=True)
+    print("gan", gan)
     saver = tf.train.Saver()
 
     if config.use_conditional_GAN:
@@ -46,6 +47,7 @@ def single_compress(config, args):
         else:
             if args.restore_path:
                 new_saver = tf.train.import_meta_graph('{}.meta'.format(args.restore_path))
+                print("args.restore_path: ", args.restore_path)
                 new_saver.restore(sess, args.restore_path)
                 print('Previous checkpoint {} restored.'.format(args.restore_path))
 

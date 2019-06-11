@@ -58,13 +58,13 @@ class config_test(object):
     # Compression
     lambda_X = 12
     channel_bottleneck = 8
-    sample_noise = True
+    sample_noise = True # True
     use_vanilla_GAN = False
     use_feature_matching_loss = True
     upsample_dim = 256
     multiscale = True
     feature_matching_weight = 10
-    use_conditional_GAN = False
+    use_conditional_GAN = False # False
 
 class directories(object):
     train = 'data/cityscapes_paths_train.h5'
