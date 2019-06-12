@@ -25,8 +25,17 @@ def single_compress(config, args):
     else:
         paths = np.array([args.image_path])
 
+    print("path: ", paths)
     gan = Model(config, paths, name='single_compress', dataset=args.dataset, evaluate=True)
     print("gan", gan)
+
+    import tensorflow.contrib.slim as slim
+    def model_summary():
+        model_vars = tf.trainable_variables()
+        slim.model_analyzer.analyze_vars(model_vars, print_info=True)
+
+    model_summary()
+
     saver = tf.train.Saver()
 
     if config.use_conditional_GAN:
@@ -61,6 +70,7 @@ def single_compress(config, args):
             save_path = args.output_path
         Utils.single_plot(0, 0, sess, gan, handle, save_path, config, single_compress=True)
         print('Reconstruction saved to', save_path)
+
 
     return
 

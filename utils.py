@@ -102,11 +102,15 @@ class Utils(object):
 
         real = model.example
         gen = model.reconstruction
-
         print("real: ", real.shape)
+        # print("real: ", real)
         print("gen: ", gen.shape)
         # Generate images from noise, using the generator network.
-        r, g = sess.run([real, gen], feed_dict={model.training_phase:True, model.handle: handle})
+        # r, g = sess.run([real, gen], feed_dict={model.training_phase:True, model.handle: handle})
+        start = time.time()
+        r, g = sess.run([real, gen], feed_dict={model.training_phase:False, model.handle: handle})
+        end = time.time()
+        print("test one image: ", end-start, " second.")
 
         images = list()
 
@@ -115,6 +119,7 @@ class Utils(object):
             im = np.squeeze(im)
             im = im[:,:,:3]
             images.append(im)
+            # print("im: ", im)
 
             # Uncomment to plot real and generated samples separately
             # f = plt.figure()
@@ -128,20 +133,20 @@ class Utils(object):
         # import cv2
         # cv2.imwrite(name, im)
         plt.imsave(name, im) 
-        print("im: ", im.shape)
+        # print("im: ", im.shape)
         print('Reconstruction saved to', name)
             
 
         comparison = np.hstack(images)
         
         f = plt.figure()
-        # plt.imshow(comparison)
-        # plt.axis('off')
-        # if single_compress:
-        #     f.savefig(name, format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
-        # else:
-        #     f.savefig("{}/gan_compression_{}_epoch{}_step{}_{}_comparison.pdf".format(directories.samples, name, epoch,
-        #         global_step, imtype), format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
+        plt.imshow(comparison)
+        plt.axis('off')
+        if single_compress:
+            f.savefig(name, format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
+        else:
+            f.savefig("{}/gan_compression_{}_epoch{}_step{}_{}_comparison.pdf".format(directories.samples, name, epoch,
+                global_step, imtype), format='pdf', dpi=720, bbox_inches='tight', pad_inches=0)
         plt.gcf().clear()
         plt.close(f)
 

@@ -44,6 +44,11 @@ class Data(object):
                     
             image = _image_decoder(image_path)
 
+            # with tf.Session() as sess:
+            #     img = sess.run(image)
+            #     print("img min: ", img.min())
+            #     print("img max: ", img.max())
+
             # Explicitly set the shape if you want a sanity check
             # or if you are using your own custom dataset, otherwise
             # the model is shape-agnostic as it is fully convolutional
